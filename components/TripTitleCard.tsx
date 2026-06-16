@@ -138,11 +138,14 @@ const TripCard = (tripId: any) => {
         const id = value as string;
         try {
           const docRef = doc(db, "trip", id)
+          //updates trip Doc
           await updateDoc(docRef,{
             address: address,
             dates: [startDate, endDate],
             description: description
           })
+
+
           setModalVisible(false);
         } catch (error) { 
           console.log(error);
@@ -157,6 +160,7 @@ const TripCard = (tripId: any) => {
       setDscription("")
       setModalVisible(false);
     }
+
 
         
 

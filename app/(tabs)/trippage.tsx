@@ -24,6 +24,7 @@ export default function TripPage() {
               </TouchableOpacity>
             </View>
             <View style={styles.container}>
+                
                 <TouchableOpacity
                     onPress={() => { router.push("/(list)/grocerylist"); console.log("Pressed?"); }}
                     style={styles.button}
