@@ -4,17 +4,19 @@
     "slug": "TripPlanner",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/exampleIMG.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.TripPlanner"
+      "bundleIdentifier": "com.anonymous.TripPlanner",
+      "icon": "./assets/images/exampleIMG.png"
     },
     "android": {
+      "icon": "./assets/images/exampleIMG.png",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/exampleIMG.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.anonymous.TripPlanner"
@@ -22,14 +24,14 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/exampleIMG.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/exampleIMG.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
