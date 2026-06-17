@@ -33,7 +33,7 @@ exports.notifyUserOnTripInvite = onDocumentCreated(
         data: { tripId: event.params.tripId },
       };
 
-      // Send push notification via Expo
+      //Send push notification via Expo
       await fetch("https://exp.host/--/api/v2/push/send", {
         method: "POST",
         headers: {

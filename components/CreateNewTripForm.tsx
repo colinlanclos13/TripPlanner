@@ -6,6 +6,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { auth, db } from "../firebaseConfig";
 import {addDoc, doc, getDoc, setDoc, collection, writeBatch } from "firebase/firestore";
 import {getAuth} from "firebase/auth";
+import * as Notifications from "expo-notifications";
 
 const CreateNewTripForm = () => {
   const [TripTitle, onChangeTripTitle] = React.useState('');
@@ -197,6 +198,8 @@ const CreateNewTripForm = () => {
 
   }
 
+  
+
   return (
       <SafeAreaView style={styles.safeArea}>
         {/* start date picker */}
@@ -290,6 +293,7 @@ const CreateNewTripForm = () => {
           >
             <Text style={styles.submitButtonText}>Submit</Text>
           </TouchableOpacity>
+
         </ScrollView>
       </SafeAreaView>
   );

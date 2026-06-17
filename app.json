@@ -10,7 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.TripPlanner",
+      "bundleIdentifier": "com.colinlanclos.tripplanner",
       "icon": "./assets/images/exampleIMG.png"
     },
     "android": {
@@ -19,7 +19,7 @@
         "foregroundImage": "./assets/images/exampleIMG.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anonymous.TripPlanner"
+      "package": "com.colinlanclos.tripplanner"
     },
     "web": {
       "bundler": "metro",

@@ -6,9 +6,11 @@ import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {auth, db } from "../firebaseConfig";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { collection, setDoc, doc, getDoc } from 'firebase/firestore';
+import { collection, setDoc, doc, getDoc, arrayUnion } from 'firebase/firestore';
 import { configureReanimatedLogger } from 'react-native-reanimated';
 import { IconSelector, AvatarIcon } from './IconSelector';
+import * as Notifications from "expo-notifications";
+
 
 
 
@@ -60,10 +62,14 @@ const SignUpForm = () => {
         }); 
         console.log("usernamed Logged")
 
+        const token = await Notifications.getExpoPushTokenAsync();
+        console.log("getting expo token")
+
         await setDoc(doc(db, "users", user.uid), {
           userName: userName.toLowerCase(),
           email: emailInput,
-          profilePic: selectedIcon
+          profilePic: selectedIcon,
+          expoPushTokens: arrayUnion(token.data)
         });
         console.log("data stored ✅");
         setLoading(false);
