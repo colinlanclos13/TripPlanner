@@ -50,9 +50,6 @@ const EditProfileModal = (props: editProfile) => {
                 console.log(error);
               }
             }
-            
-
-            
           }
     }
 
@@ -73,7 +70,7 @@ const EditProfileModal = (props: editProfile) => {
                 <TextInput
                     style={styles.input}
                     onChangeText={setName}
-                    value={name}
+                    value={props.userName}
                 />
 
                 <Text>Email</Text>
@@ -81,7 +78,7 @@ const EditProfileModal = (props: editProfile) => {
                     keyboardType='numeric'
                     style={styles.input}
                     onChangeText={setEmail}
-                    value={email}
+                    value={props.email}
                 />  
 
                 <TouchableOpacity

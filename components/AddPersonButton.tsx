@@ -75,22 +75,22 @@ const AddPersonButton = () => {
 
         //adding person to trip guest list
         console.log("Getting Trip Id");
-        const value = await AsyncStorage.getItem('tripId');
-        if(!value){
+        const tripId = await AsyncStorage.getItem('tripId');
+        if(!tripId){
           return;
         }
-       const docRef = doc(db,"trip", value, "Guest", "List");
+       const docRef = doc(db,"trip", tripId, "Guest", "List");
        console.log(itemName)
        await setDoc(docRef,{[itemName]:["maybe", profilePic, userId]},{merge:true})
         
         //add trip to user trip list 
-        const tripDocRef = doc(db,"trip", value)
+        const tripDocRef = doc(db,"trip", tripId)
         const tripData : any = await (await getDoc(tripDocRef)).data();
         console.log("trip data to put into persos's stuff")
         console.log(tripData);
       
 
-        const userDocRef = doc(db, "users", userId, "trips", value)
+        const userDocRef = doc(db, "users", userId, "trips", tripId)
         await setDoc(userDocRef, {...tripData, seen:false});
 
 
@@ -101,7 +101,7 @@ const AddPersonButton = () => {
       setDisplay(false);
       setModalVisible(!modalVisible);
       //add to defualt List
-      console.log("Added New List");
+      console.log("Added New Person");
       let tempVar = itemName;
       //router.push()
       setItemName("");
@@ -119,9 +119,9 @@ const AddPersonButton = () => {
           }}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={styles.modalText}>Add New Item</Text>
+              <Text style={styles.modalText}>Add New Guest</Text>
 
-              <Text>Item Name</Text>
+              <Text>Enter Username</Text>
               <TextInput
                 style={styles.input}
                 onChangeText={setItemName}
@@ -152,7 +152,7 @@ const AddPersonButton = () => {
               <TouchableOpacity
                 style={[styles.button, styles.buttonClose]}
                 onPress={() =>  addNewitem()}>
-                <Text style={styles.textStyle}>Add New Item</Text>
+                <Text style={styles.textStyle}>Send Invite</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.button, styles.buttonClose]}

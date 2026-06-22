@@ -49,7 +49,7 @@ const ProfilePage = () => {
     
     useEffect(() => {
       if (profileData) {
-        console.log("Profile data updated:", profileData.email, profileData.userName);
+        console.log("Profile data:", profileData.email, profileData.userName);
       }
       setLoading(false)
     }, [profileData]);

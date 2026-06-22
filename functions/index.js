@@ -7,6 +7,8 @@ admin.initializeApp();
 const { onDocumentUpdated } = require("firebase-functions/v2/firestore");
 
 
+
+//Invite People To Trip (Works)
 exports.notifyUserOnTripInvite = onDocumentCreated(
   "users/{userId}/trips/{tripId}",
   async (event) => {
@@ -19,21 +21,25 @@ exports.notifyUserOnTripInvite = onDocumentCreated(
       // Get user's push token
       const userDoc = await db.doc(`users/${userId}`).get();
       const pushToken = userDoc.get("pushToken");
+      const userName = userDoc.get("userName");
 
       if (!pushToken) {
         logger.warn(`No push token for user ${userId}`);
         return;
       }
 
+      const tripData = event.data.data();
+
       const message = {
         to: pushToken,
         sound: "default",
-        title: "Trip Invitation",
-        body: "You've been invited to a new trip!",
+        title: `You've been invited to ${userName}`,
+        body: `You've been invited to ${tripData.title}`,
         data: { tripId: event.params.tripId },
       };
 
-      //Send push notification via Expo
+
+      // Send push notification via Expo
       await fetch("https://exp.host/--/api/v2/push/send", {
         method: "POST",
         headers: {
@@ -51,6 +57,7 @@ exports.notifyUserOnTripInvite = onDocumentCreated(
   },
 );
 
+// Changes
 exports.syncTripUpdates = onDocumentUpdated(
   "trip/{tripId}",
   async (event) => {
@@ -63,7 +70,7 @@ exports.syncTripUpdates = onDocumentUpdated(
     const db = admin.firestore();
 
 
-    //updates object
+    // updates object
 
     const updates = {};
 
@@ -82,8 +89,7 @@ exports.syncTripUpdates = onDocumentUpdated(
     }
 
     try {
-
-      //Get guest list 
+      // Get guest list
       const guestSnap = await db.doc(`trip/${tripId}/Guest/List`).get();
 
       if (!guestSnap.exists) {
@@ -96,7 +102,7 @@ exports.syncTripUpdates = onDocumentUpdated(
 
       logger.info("Guest count", { count: values.length });
 
-      //Batch update users
+      // Batch update users
       const batch = db.batch();
 
       values.forEach((guest) => {

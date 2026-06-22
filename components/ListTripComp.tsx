@@ -9,6 +9,7 @@ import {
   View,
   ImageBackground,
 } from 'react-native';
+import SelectDropdown from 'react-native-select-dropdown'
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {auth , db} from "../firebaseConfig"
@@ -21,9 +22,6 @@ type ItemData = {
   dates: ["" , ""]
   seen: boolean
 };
-
-
-
 const DATA: ItemData[] = [
 ];
 
@@ -34,6 +32,7 @@ type ItemProps = {
   textColor: string;
 };
 
+//item component
 const Item = ({ item, onPress, backgroundColor, textColor }: ItemProps) => {
   // Google Static Maps API URL for background image
   let googleMapsAPI = `https://maps.googleapis.com/maps/api/streetview?location=${item.address}&size=600x400&key=AIzaSyAdpb_QNAlmoL30L8bFm91HBidOmXm1OIw`
@@ -66,6 +65,7 @@ const Item = ({ item, onPress, backgroundColor, textColor }: ItemProps) => {
 
 const ListTripComp = () => {
   const [DATA, setDATA] = useState<ItemData[]>()
+  
 
   useEffect( () => {
     {/* grab userid*/}
@@ -82,7 +82,6 @@ const ListTripComp = () => {
         (querySnapshot) => {
           const seenTrips: any[] = [];
           const unseenTrips: any[] = [];
-    
           querySnapshot.forEach((doc) => {
             const trip = { id: doc.id, ...doc.data() };
             if (doc.data().seen) {
@@ -91,8 +90,9 @@ const ListTripComp = () => {
               unseenTrips.push(trip);
             }
           });
-    
-          const sortedTrips = [...unseenTrips, ...seenTrips]; // unseen first
+
+          const  sortedTrips = [...unseenTrips, ...seenTrips]
+          
           setDATA(sortedTrips);
           console.log('Trips:', sortedTrips);
         },
@@ -113,6 +113,7 @@ const ListTripComp = () => {
 
 
   const [selectedId, setSelectedId] = useState<string>();
+  const [howToSort, setHowtoSort] = useState<string>("Regular");
 
   const renderItem = ({ item }: { item: ItemData }) => {
     const backgroundColor = item.id === selectedId ? '#6e3b6e' : '#f9c2ff';
@@ -144,11 +145,34 @@ const ListTripComp = () => {
       />
     );
   };
-
+  const sort = ['Regular', 'Seen', 'Unseen'];
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
         <Text style={styles.header}>Choose a Trip</Text>
+        <SelectDropdown
+        data={sort}
+        onSelect={(selectedItem, index) => {
+          setHowtoSort(selectedItem);
+        }}
+        renderButton={(selectedItem, isOpened) => {
+          return (
+            <View style={styles.dropdownButton}>
+              <Text style={styles.dropdownButtonText}>
+                {selectedItem || 'Sort'}
+              </Text>
+            </View>
+          );
+        }}
+        renderItem={(item, index, isSelected) => {
+          return (
+            <View style={{...styles.dropdownItem, backgroundColor: isSelected ? '#E5E5E5' : '#FFF'}}>
+              <Text style={styles.dropdownItemText}>{item}</Text>
+            </View>
+          );
+        }}
+      />
+
         <FlatList
           data={DATA}
           renderItem={renderItem}
@@ -209,6 +233,18 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontStyle: 'italic',
   },
+  dropdownButton: { 
+    width: 200, height: 50, backgroundColor: '#EFEFEF', justifyContent: 'center', alignItems: 'center', borderRadius: 8
+   },
+  dropdownButtonText: {
+     fontSize: 16, color: '#333'
+     },
+  dropdownItem: {
+     padding: 15, justifyContent: 'center' 
+    },
+  dropdownItemText: { 
+    fontSize: 16
+   },
 });
 
 const storeData = async (value: string) => {

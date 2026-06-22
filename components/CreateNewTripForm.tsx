@@ -23,7 +23,6 @@ const CreateNewTripForm = () => {
   const [tripId, setTripId] = React.useState("");
 
   const putIntoOnwerTripList = async (tripId: string, username:string, userId: string) => {
-
     try {
       await setDoc(doc(db, "users", userId, "trips",tripId), {
         title: TripTitle,
