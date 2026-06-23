@@ -1,4 +1,4 @@
-package com.anonymous.TripPlanner
+package com.colinlanclos.tripplanner
 
 import android.app.Application
 import android.content.res.Configuration

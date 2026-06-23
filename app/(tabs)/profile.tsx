@@ -5,10 +5,12 @@ import { push } from 'expo-router/build/global-state/routing';
 import EditProfileModal from '@/components/EditProfileModal';
 import CheckForLoginComp from '@/components/checkForLoginComp';
 import ChangePassword from '@/components/ChangePassword';
-import { collection, onSnapshot, doc } from 'firebase/firestore';
+import { collection, onSnapshot, doc, getFirestore, updateDoc, arrayRemove } from 'firebase/firestore';
 import { auth, db } from '@/firebaseConfig';
 import { signOut } from '@firebase/auth';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { getExpoPushTokenAsync } from 'expo-notifications';
+import Constants from "expo-constants";
 
 
 interface UserData {
@@ -59,7 +61,20 @@ const ProfilePage = () => {
 
 
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+
+      const dbf = getFirestore();
+      const userId = auth.currentUser?.uid
+      const expoPushToken = await getExpoPushTokenAsync({
+        projectId: Constants.expoConfig?.extra?.eas?.projectId,
+      });
+      if(!userId)
+        return;
+      const docRef = doc(dbf, "users", userId)
+      await updateDoc(docRef,{
+        expoPushTokens: arrayRemove(expoPushToken.data)
+      })
+
       const user = auth.currentUser;
       if(!user){
         console.log("yay");

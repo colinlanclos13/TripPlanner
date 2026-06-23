@@ -1,12 +1,13 @@
 import { router } from 'expo-router';
-import { Firestore } from 'firebase/firestore';
+import { arrayUnion, doc, Firestore, setDoc } from 'firebase/firestore';
 import {useState} from 'react';
 import { StyleSheet, TextInput, Text, TouchableOpacity, View, ScrollView, Modal, ActivityIndicator } from 'react-native';
 import { ColorProperties } from 'react-native-reanimated/lib/typescript/Colors';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { auth } from  "../firebaseConfig"
+import { auth , db} from  "../firebaseConfig"
 import { signInWithEmailAndPassword, signOut} from  "firebase/auth"
+import * as Notifications from "expo-notifications";
 
 const LoginForm = () => {
   const [emailInput, onChangeEmail] = useState('');
@@ -17,12 +18,22 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   
 
-  function onSubmit(){
+  async function onSubmit(){
       if(!emailInput || !passwordInput){
         setShowRedText(true);
       }else {
         signInWithEmailAndPassword(auth, emailInput, passwordInput)
-        .then(() => {
+        .then( async () => {
+          const token = await Notifications.getExpoPushTokenAsync();
+          const user = auth.currentUser?.uid;
+          if(!user){
+            return;
+          }
+          await setDoc(doc(db, "users", user), {
+            expoPushTokens: arrayUnion(token.data)
+          },
+          {merge: true}
+          );
           console.log('Signed in!');
           setLoading(false);
           setWrongPWEmail(false);

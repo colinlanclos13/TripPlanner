@@ -28,7 +28,7 @@
         <key>CFBundleURLSchemes</key>
         <array>
           <string>myapp</string>
-          <string>com.anonymous.TripPlanner</string>
+          <string>com.colinlanclos.tripplanner</string>
         </array>
       </dict>
       <dict>

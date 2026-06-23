@@ -1,4 +1,4 @@
-package com.anonymous.TripPlanner
+package com.colinlanclos.tripplanner
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build

@@ -29,6 +29,7 @@
         <data android:scheme="myapp"/>
         <data android:scheme="com.anonymous.TripPlanner"/>
         <data android:scheme="exp+tripplanner"/>
+        <data android:scheme="com.colinlanclos.tripplanner"/>
       </intent-filter>
     </activity>
   </application>

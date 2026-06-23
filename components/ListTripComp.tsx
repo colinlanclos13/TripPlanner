@@ -65,8 +65,27 @@ const Item = ({ item, onPress, backgroundColor, textColor }: ItemProps) => {
 
 const ListTripComp = () => {
   const [DATA, setDATA] = useState<ItemData[]>()
+  const [seen, setSeen] = useState<ItemData[]>()
+  const [unSeen, setUnseen] = useState<ItemData[]>()
+  const [selectedId, setSelectedId] = useState<string>();
+  const [howToSort, setHowtoSort] = useState<string>("Regular");
   
-
+  useEffect(() => {
+    console.log(howToSort);
+  
+    let sortedTrips: ItemData[] = [];
+  
+    if (howToSort === "Unseen") {
+      sortedTrips = unSeen ?? [];
+    } else if (howToSort === "Seen") {
+      sortedTrips = seen ?? [];
+    } else if (howToSort === "Regular") {
+      sortedTrips = [...(unSeen ?? []), ...(seen ?? [])];
+    }
+  
+    setDATA(sortedTrips);
+  }, [howToSort, seen, unSeen]);
+  
   useEffect( () => {
     {/* grab userid*/}
     const userId = auth.currentUser?.uid
@@ -90,9 +109,9 @@ const ListTripComp = () => {
               unseenTrips.push(trip);
             }
           });
-
-          const  sortedTrips = [...unseenTrips, ...seenTrips]
-          
+          setSeen(seenTrips)
+          setUnseen(unseenTrips)
+          const sortedTrips = [...unseenTrips, ...seenTrips]
           setDATA(sortedTrips);
           console.log('Trips:', sortedTrips);
         },
@@ -101,7 +120,6 @@ const ListTripComp = () => {
           console.error('onSnapshot error:', error);
         }
       );
-    
       // ✅ Cleanup on unmount
       return () => unsubscribe();
     } catch (error) {
@@ -111,9 +129,6 @@ const ListTripComp = () => {
   }, [])
 
 
-
-  const [selectedId, setSelectedId] = useState<string>();
-  const [howToSort, setHowtoSort] = useState<string>("Regular");
 
   const renderItem = ({ item }: { item: ItemData }) => {
     const backgroundColor = item.id === selectedId ? '#6e3b6e' : '#f9c2ff';
@@ -157,7 +172,7 @@ const ListTripComp = () => {
         }}
         renderButton={(selectedItem, isOpened) => {
           return (
-            <View style={styles.dropdownButton}>
+            <View style={[styles.dropdownButton, { marginBottom: 12 }]}>
               <Text style={styles.dropdownButtonText}>
                 {selectedItem || 'Sort'}
               </Text>

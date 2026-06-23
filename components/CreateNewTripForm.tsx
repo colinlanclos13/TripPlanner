@@ -23,6 +23,7 @@ const CreateNewTripForm = () => {
   const [tripId, setTripId] = React.useState("");
 
   const putIntoOnwerTripList = async (tripId: string, username:string, userId: string) => {
+
     try {
       await setDoc(doc(db, "users", userId, "trips",tripId), {
         title: TripTitle,
@@ -112,10 +113,7 @@ const CreateNewTripForm = () => {
 
 
 
-  const hideDatePicker = () => {
-    setShowDatePickerStart(false);
-    setShowDatePickerEnd(false);
-  };
+  
 
   function handleConfirmStart(date: Date): void {
     const year = date.getFullYear();
@@ -123,6 +121,8 @@ const CreateNewTripForm = () => {
     const day = date.getDate().toString().padStart(2, '0');
 
     setStartDate(`${year}-${month}-${day}`);
+    setShowDatePickerStart(false);
+    
   }
 
   function handleConfirmEnd(date: Date): void {
@@ -131,6 +131,7 @@ const CreateNewTripForm = () => {
     const day = date.getDate().toString().padStart(2, '0');
     
     setEndDate(`${year}-${month}-${day}`);
+    setShowDatePickerEnd(false);
   }
 
   const onSubmit = async () => {
@@ -208,7 +209,7 @@ const CreateNewTripForm = () => {
                   isVisible={showDatePickerStart}
                   mode="date"
                   onConfirm={handleConfirmStart}
-                  onCancel={hideDatePicker}
+                  onCancel={() => setShowDatePickerStart(false)}
                   pickerComponentStyleIOS={{height: 300}}
                 />
                 
@@ -219,7 +220,7 @@ const CreateNewTripForm = () => {
                   isVisible={showDatePickerEnd}
                   mode="date"
                   onConfirm={handleConfirmEnd}
-                  onCancel={hideDatePicker}
+                  onCancel={() => setShowDatePickerEnd(false)}
                   pickerComponentStyleIOS={{height: 300}}
                 />
         
@@ -292,7 +293,6 @@ const CreateNewTripForm = () => {
           >
             <Text style={styles.submitButtonText}>Submit</Text>
           </TouchableOpacity>
-
         </ScrollView>
       </SafeAreaView>
   );

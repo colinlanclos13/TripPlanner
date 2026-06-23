@@ -1,132 +1,198 @@
-const { onDocumentCreated } = require("firebase-functions/v2/firestore");
+const {onDocumentCreated} = require("firebase-functions/v2/firestore");
 const logger = require("firebase-functions/logger");
 const fetch = require("node-fetch");
 const admin = require("firebase-admin");
 admin.initializeApp();
 
-const { onDocumentUpdated } = require("firebase-functions/v2/firestore");
+const {onDocumentUpdated} = require("firebase-functions/v2/firestore");
 
 
-
-//Invite People To Trip (Works)
+// Invite People To Trip (Works)
 exports.notifyUserOnTripInvite = onDocumentCreated(
-  "users/{userId}/trips/{tripId}",
-  async (event) => {
-    const userId = event.params.userId;
-    const db = event.data && event.data.ref && event.data.ref.firestore;
+    "users/{userId}/trips/{tripId}",
+    async (event) => {
+      const userId = event.params.userId;
+      const db = event.data && event.data.ref && event.data.ref.firestore;
 
-    if (!db) return;
+      if (!db) return;
 
-    try {
+      try {
       // Get user's push token
-      const userDoc = await db.doc(`users/${userId}`).get();
-      const pushToken = userDoc.get("pushToken");
-      const userName = userDoc.get("userName");
+        const userDoc = await db.doc(`users/${userId}`).get();
+        const pushTokens = userDoc.get("expoPushTokens") || [];
+        const userName = userDoc.get("userName");
 
-      if (!pushToken) {
-        logger.warn(`No push token for user ${userId}`);
-        return;
+        if (!pushTokens) {
+          logger.warn(`No push token for user ${userId}`);
+          return;
+        }
+
+        const tripData = event.data.data();
+
+        const messages = pushTokens.map((token) => ({
+          to: token,
+          sound: "default",
+          title: `You've been invited to ${tripData.title}`,
+          body: `You've been invited by ${userName}`,
+          data: {tripId: event.params.tripId},
+        }));
+
+
+        // Send push notification via Expo
+        await fetch("https://exp.host/--/api/v2/push/send", {
+          method: "POST",
+          headers: {
+            "Accept": "application/json",
+            "Accept-Encoding": "gzip, deflate",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(messages),
+        });
+
+        logger.info(`Sent push notification to ${userId}`);
+      } catch (error) {
+        logger.error("Error sending notification:", error);
+      }
+    },
+);
+
+
+exports.updateItineraryWhenDatesChange = onDocumentUpdated(
+    "trip/{id}",
+    async (event) => {
+      console.log("FUNCTION TRIGGERED");
+      const change = event.data;
+      if (!change) return;
+
+      const db = admin.firestore();
+
+      const before = change.before.data();
+      const after = change.after.data();
+
+      const beforeDates = before.dates;
+      const afterDates = after.dates;
+
+      const datesChanged =
+      JSON.stringify(beforeDates) !== JSON.stringify(afterDates);
+      console.log("Dates changed:", datesChanged);
+
+      if (!datesChanged) return;
+
+
+      const start = new Date(`${afterDates[0]}T00:00:00`);
+      const end = new Date(`${afterDates[1]}T00:00:00`);
+
+      console.log("Start:", start);
+      console.log("End:", end);
+
+      const itineraryDates = [];
+
+      for (
+        let date = new Date(start);
+        date <= end;
+        date.setDate(date.getDate() + 1)
+      ) {
+        itineraryDates.push(
+            date.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            }),
+        );
       }
 
-      const tripData = event.data.data();
+      const tripId = event.params.id;
 
-      const message = {
-        to: pushToken,
-        sound: "default",
-        title: `You've been invited to ${userName}`,
-        body: `You've been invited to ${tripData.title}`,
-        data: { tripId: event.params.tripId },
-      };
+      try {
+        const batch = db.batch();
 
+        itineraryDates.forEach((dateStr) => {
+          const docRef = db.doc(
+              `trip/${tripId}/Itinerary/${dateStr}`,
+          );
 
-      // Send push notification via Expo
-      await fetch("https://exp.host/--/api/v2/push/send", {
-        method: "POST",
-        headers: {
-          "Accept": "application/json",
-          "Accept-Encoding": "gzip, deflate",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(message),
-      });
+          batch.set(docRef, {
+            createdAt: admin.firestore.FieldValue.serverTimestamp(),
+          });
+        });
 
-      logger.info(`Sent push notification to ${userId}`);
-    } catch (error) {
-      logger.error("Error sending notification:", error);
-    }
-  },
+        await batch.commit();
+      } catch (error) {
+        console.error(error);
+      }
+    },
 );
 
 // Changes
 exports.syncTripUpdates = onDocumentUpdated(
-  "trip/{tripId}",
-  async (event) => {
-    const change = event.data;
-    if (!change) return;
+    "trip/{tripId}",
+    async (event) => {
+      const change = event.data;
+      if (!change) return;
 
-    const after = change.after.data();
-    const tripId = event.params.tripId;
+      const after = change.after.data();
+      const tripId = event.params.tripId;
 
-    const db = admin.firestore();
+      const db = admin.firestore();
 
 
-    // updates object
+      // updates object
 
-    const updates = {};
+      const updates = {};
 
-    if (after.address != null) {
-      updates.address = after.address;
-    }
+      if (after.address != null) {
+        updates.address = after.address;
+      }
 
-    if (after.dates != null) {
-      updates.dates = after.dates;
-    }
+      if (after.dates != null) {
+        updates.dates = after.dates;
+      }
 
-    // If nothing to update, stop early
-    if (Object.keys(updates).length === 0) {
-      logger.info("No valid fields to sync", { tripId });
-      return;
-    }
-
-    try {
-      // Get guest list
-      const guestSnap = await db.doc(`trip/${tripId}/Guest/List`).get();
-
-      if (!guestSnap.exists) {
-        logger.warn("Guest list missing", { tripId });
+      // If nothing to update, stop early
+      if (Object.keys(updates).length === 0) {
+        logger.info("No valid fields to sync", {tripId});
         return;
       }
 
-      const guestData = guestSnap.data() || {};
-      const values = Object.values(guestData);
+      try {
+      // Get guest list
+        const guestSnap = await db.doc(`trip/${tripId}/Guest/List`).get();
 
-      logger.info("Guest count", { count: values.length });
-
-      // Batch update users
-      const batch = db.batch();
-
-      values.forEach((guest) => {
-        const userId = guest && guest[2];
-
-        if (!userId) {
-          logger.warn("Missing userId in guest", { guest });
+        if (!guestSnap.exists) {
+          logger.warn("Guest list missing", {tripId});
           return;
         }
 
-        batch.update(
-          db.doc(`users/${userId}/trips/${tripId}`),
+        const guestData = guestSnap.data() || {};
+        const values = Object.values(guestData);
+
+        logger.info("Guest count", {count: values.length});
+
+        // Batch update users
+        const batch = db.batch();
+
+        values.forEach((guest) => {
+          const userId = guest && guest[2];
+
+          if (!userId) {
+            logger.warn("Missing userId in guest", {guest});
+            return;
+          }
+
+          batch.update(
+              db.doc(`users/${userId}/trips/${tripId}`),
+              updates,
+          );
+        });
+
+        await batch.commit();
+
+        logger.info("Synced trip updates successfully", {
+          tripId,
           updates,
-        );
-      });
-
-      await batch.commit();
-
-      logger.info("Synced trip updates successfully", {
-        tripId,
-        updates,
-      });
-    } catch (err) {
-      logger.error("Sync failed:", err);
-    }
-  },
+        });
+      } catch (err) {
+        logger.error("Sync failed:", err);
+      }
+    },
 );
