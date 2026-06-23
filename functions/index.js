@@ -79,6 +79,18 @@ exports.updateItineraryWhenDatesChange = onDocumentUpdated(
       if (!datesChanged) return;
 
 
+      const itineraryRef = db.collection(`trip/${event.params.id}/Itinerary`);
+      const snapshot = await itineraryRef.get();
+
+      const batchDelete = db.batch();
+
+      snapshot.docs.forEach((doc) => {
+        batchDelete.delete(doc.ref);
+      });
+
+      await batchDelete.commit();
+
+
       const start = new Date(`${afterDates[0]}T00:00:00`);
       const end = new Date(`${afterDates[1]}T00:00:00`);
 
@@ -101,6 +113,7 @@ exports.updateItineraryWhenDatesChange = onDocumentUpdated(
         );
       }
 
+
       const tripId = event.params.id;
 
       try {
@@ -110,9 +123,7 @@ exports.updateItineraryWhenDatesChange = onDocumentUpdated(
           const docRef = db.doc(
               `trip/${tripId}/Itinerary/${dateStr}`,
           );
-
           batch.set(docRef, {
-            createdAt: admin.firestore.FieldValue.serverTimestamp(),
           });
         });
 
