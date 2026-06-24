@@ -1,5 +1,6 @@
 import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
+import { Colors } from '@/app/styles /colors';
 import {
   FlatList,
   StatusBar,
@@ -213,12 +214,12 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: StatusBar.currentHeight || 0,
     paddingHorizontal: 20,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.background,
   },
   header: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.secondary,
     textAlign: 'center',
     marginBottom: 20,
   },
@@ -252,7 +253,7 @@ const styles = StyleSheet.create({
     width: 200, height: 50, backgroundColor: '#EFEFEF', justifyContent: 'center', alignItems: 'center', borderRadius: 8
    },
   dropdownButtonText: {
-     fontSize: 16, color: '#333'
+     fontSize: 20, color: Colors.primary
      },
   dropdownItem: {
      padding: 15, justifyContent: 'center' 

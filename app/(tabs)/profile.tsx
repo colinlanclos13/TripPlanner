@@ -11,6 +11,7 @@ import { signOut } from '@firebase/auth';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { getExpoPushTokenAsync } from 'expo-notifications';
 import Constants from "expo-constants";
+import { Colors } from '../styles /colors';
 
 
 interface UserData {
@@ -115,7 +116,7 @@ const ProfilePage = () => {
       <MaterialCommunityIcons
       name={profileData?.profilePic as any} // TypeScript might complain, but iconName matches icon strings
       size={100}
-      color="#333"
+      color={Colors.secondary}
     />
 
       {/* Name */}
@@ -157,11 +158,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: Colors.background,
   },
   loadingText: {
     marginTop: 10,
-    color: '#fff',
+    color: Colors.secondary,
     fontSize: 16,
   },
   container: {
@@ -169,6 +170,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
+    backgroundColor: Colors.primary
   },
   profilePic: {
     width: 120,
@@ -180,14 +182,15 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
+    color: Colors.secondary,
   },
   phone: {
     fontSize: 18,
-    color: 'gray',
+    color: Colors.secondary,
     marginBottom: 30,
   },
   button: {
-    backgroundColor: '#007bff',
+    backgroundColor: Colors.accent ,
     paddingVertical: 12,
     paddingHorizontal: 30,
     borderRadius: 8,
@@ -200,7 +203,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   buttonText: {
-    color: '#fff',
+    color: Colors.secondary,
     fontSize: 18,
   },
 });

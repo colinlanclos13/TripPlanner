@@ -5,7 +5,7 @@ import { Platform, View } from 'react-native';
 import { HapticTab } from '@/components/HapticTab';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
+import { Colors } from '../styles /colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import CheckForLoginComp from '@/components/checkForLoginComp';
 import { Ionicons } from '@expo/vector-icons';
@@ -18,7 +18,7 @@ export default function TabLayout() {
     <CheckForLoginComp>
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+          tabBarActiveTintColor: Colors.accent,
           headerShown: false,
           tabBarButton: HapticTab,
           tabBarBackground: TabBarBackground,
@@ -34,20 +34,20 @@ export default function TabLayout() {
           name="index"
           options={{
             title: 'Home',
-            tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+            tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={Colors.accent} />,
           }}
         />
         <Tabs.Screen
           name="createtrip"
           options={{
             title: 'CreateTrip',
-            tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+            tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={Colors.accent} />,
           }}
         />
         <Tabs.Screen name="profile"
           options={{
             title: 'Profile',
-            tabBarIcon: ({ color }) => <Ionicons name="person" size={28} color={color} />,
+            tabBarIcon: ({ color }) => <Ionicons name="person" size={28} color={Colors.accent} />,
           }}/>
 
           <Tabs.Screen name='trippage'

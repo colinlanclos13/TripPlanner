@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { auth , db} from  "../firebaseConfig"
 import { signInWithEmailAndPassword, signOut} from  "firebase/auth"
 import * as Notifications from "expo-notifications";
+import { Colors } from '@/app/styles /colors';
 
 const LoginForm = () => {
   const [emailInput, onChangeEmail] = useState('');
@@ -162,7 +163,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
-    color: '#333',
+    color: Colors.accent,
     marginBottom: 8,
   },
   input: {
@@ -174,7 +175,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   loginButton: {
-    backgroundColor: '#007BFF',
+    backgroundColor: Colors.accent,
     paddingVertical: 12,
     borderRadius: 8,
     marginTop: 20,
@@ -182,12 +183,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loginButtonText: {
-    color: '#fff',
+    color: Colors.secondary,
     fontSize: 18,
     fontWeight: 'bold',
   },
   resetPasswordText: {
-    color: '#007BFF',
+    color: Colors.secondary,
     textAlign: 'center',
     marginTop: 20,
     fontSize: 16,

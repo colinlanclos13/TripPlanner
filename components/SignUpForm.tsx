@@ -10,6 +10,7 @@ import { collection, setDoc, doc, getDoc, arrayUnion } from 'firebase/firestore'
 import { configureReanimatedLogger } from 'react-native-reanimated';
 import { IconSelector, AvatarIcon } from './IconSelector';
 import * as Notifications from "expo-notifications";
+import { Colors } from '@/app/styles /colors';
 
 
 
@@ -183,7 +184,7 @@ const SignUpForm = () => {
   
   return (
     <SafeAreaProvider>
-    <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: 'white' }}>
+    <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: Colors.primary}}>
       <ScrollView
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={[styles.container, { flexGrow: 1 }]}
@@ -325,7 +326,7 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     marginTop: 10,
-    color: '#fff',
+    color: Colors.secondary,
     fontSize: 16,
   },
 redText: {
@@ -348,26 +349,28 @@ redText: {
     textAlign: 'center',
     marginTop: 10,
     marginBottom: 30,
-    color: '#333',
+    color: Colors.secondary,
   },
   inputGroup: {
     marginBottom: 20,
   },
   label: {
     fontSize: 16,
-    color: '#333',
+    color: Colors.secondary,
     marginBottom: 8,
   },
   input: {
     height: 50,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 8,
+    borderColor: Colors.accent,
+    borderWidth: 3,
+    borderRadius: 6,
     paddingLeft: 10,
     fontSize: 16,
+    color: Colors.secondary,
+    backgroundColor: Colors.secondary
   },
   submitButton: {
-    backgroundColor: '#007BFF',
+    backgroundColor: Colors.accent,
     paddingVertical: 12,
     borderRadius: 8,
     marginTop: 20,
@@ -375,12 +378,12 @@ redText: {
     alignItems: 'center',
   },
   submitButtonText: {
-    color: '#fff',
+    color: Colors.secondary,
     fontSize: 18,
     fontWeight: 'bold',
   },
   linkText: {
-    color: '#007BFF',
+    color: Colors.secondary,
     textAlign: 'center',
     marginTop: 20,
     fontSize: 16,

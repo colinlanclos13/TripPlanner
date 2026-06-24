@@ -5,6 +5,7 @@ import TripPlanComp from '@/components/TripPlanComp';
 import AttendingStatues from '@/components/AttendingStatues';
 import { router } from 'expo-router';
 import LeaveOrDeleteTrip from "@/components/LeaveOrDeleteTrip";
+import { Colors } from "../styles /colors";
 
 export default function TripPage() {
   return (
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   button: {
-    backgroundColor: '#1E3A8A', // Navy
+    backgroundColor: Colors.accent, // Navy
     paddingVertical: 12,
     paddingHorizontal: 20,
     marginBottom: 15,
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   buttonText: {
-    color: '#F9FAFB',           // Light background for contrast
+    color: Colors.secondary,           // Light background for contrast
     fontSize: 18,
     fontWeight: 'bold',
   },

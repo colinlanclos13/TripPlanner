@@ -7,6 +7,7 @@ import { auth, db } from "../firebaseConfig";
 import {addDoc, doc, getDoc, setDoc, collection, writeBatch } from "firebase/firestore";
 import {getAuth} from "firebase/auth";
 import * as Notifications from "expo-notifications";
+import { Colors } from '@/app/styles /colors';
 
 const CreateNewTripForm = () => {
   const [TripTitle, onChangeTripTitle] = React.useState('');
@@ -317,7 +318,7 @@ const styles = StyleSheet.create({
   },
   safeArea: {
     flexGrow: 1,
-    backgroundColor: '#F9FAFB', // soft white background
+    backgroundColor: Colors.background, // soft white background
   },
   formContainer: {
     padding: 20,
@@ -329,14 +330,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 30,
-    color: '#1E3A8A', // navy heading
+    color: Colors.secondary, // navy heading
   },
   inputGroup: {
     marginBottom: 20,
   },
   label: {
     fontSize: 16,
-    color: '#374151', // softer text
+    color: Colors.secondary, // softer text
     marginBottom: 8,
   },
   input: {
@@ -350,7 +351,7 @@ const styles = StyleSheet.create({
     color: '#374151',
   },
   submitButton: {
-    backgroundColor: '#1E3A8A', // primary navy button
+    backgroundColor: Colors.accent, // primary navy button
     paddingVertical: 12,
     borderRadius: 8,
     marginTop: 20,
@@ -358,7 +359,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   submitButtonText: {
-    color: '#F9FAFB', // soft white on navy
+    color: Colors.secondary, // soft white on navy
     fontSize: 18,
     fontWeight: 'bold',
   },
@@ -367,7 +368,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   button: {
-    backgroundColor: '#FACC15', // cheerful yellow for secondary actions
+    backgroundColor: Colors.accent, // cheerful yellow for secondary actions
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 8,
@@ -381,7 +382,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   buttonToChooseDates: {
-    color: '#1E3A8A', // navy text on yellow button
+    color: Colors.secondary, // navy text on yellow button
     fontSize: 16,
     fontWeight: '600',
   },

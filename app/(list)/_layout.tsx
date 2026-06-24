@@ -11,7 +11,13 @@ const _layout = () => {
     return (
         //list for Groceris, Big Items, and Indvidual
         <CheckForLoginComp>
-            <Tabs>
+            <Tabs 
+            screenOptions={{
+                tabBarStyle: {
+                    height: 10
+                }
+            }}     
+            >
                 <Tabs.Screen name="grocerylist" options={{headerShown: true,tabBarButton: () => null,headerLeft: () => (
                 <Button title="Back" onPress={() => navigation.goBack()} />
                 ),}} />

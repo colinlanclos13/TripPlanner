@@ -1,3 +1,4 @@
+import { Colors } from "@/app/styles /colors";
 import { addDoc, deleteDoc, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { useState } from "react";
 import { TouchableOpacity, View, Text, StyleSheet, Modal, TextInput, ActivityIndicator} from "react-native";
@@ -136,7 +137,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
     button: {
-    backgroundColor: '#007bff',
+    backgroundColor: Colors.accent,
     paddingVertical: 12,
     paddingHorizontal: 30,
     borderRadius: 8,
@@ -156,13 +157,13 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   buttonOpen: {
-    backgroundColor: '#F194FF',
+    backgroundColor: Colors.accent,
   },
   buttonClose: {
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.accent,
   },
   textStyle: {
-    color: 'white',
+    color: Colors.secondary,
     fontWeight: 'bold',
     textAlign: 'center',
   },
