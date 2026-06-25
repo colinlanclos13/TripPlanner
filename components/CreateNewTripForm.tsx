@@ -123,7 +123,6 @@ const CreateNewTripForm = () => {
 
     setStartDate(`${year}-${month}-${day}`);
     setShowDatePickerStart(false);
-    
   }
 
   function handleConfirmEnd(date: Date): void {

@@ -4,6 +4,7 @@ import { red } from 'react-native-reanimated/lib/typescript/Colors';
 import { db, auth } from '@/firebaseConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { doc, setDoc, updateDoc } from 'firebase/firestore';
+import { Colors } from '@/app/styles /colors';
 
 const AddGroupItemButton = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F194FF',
   },
   buttonClose: {
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.accent,
   },
   textStyle: {
     color: 'white',
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   button: {
-    backgroundColor: '#28a745', // Green color to differentiate the button from Add Grocery
+    backgroundColor: Colors.accent, // Green color to differentiate the button from Add Grocery
     paddingVertical: 12,
     paddingHorizontal: 30,
     borderRadius: 8,

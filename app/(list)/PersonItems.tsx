@@ -6,6 +6,7 @@ import { router } from "expo-router";
 import { collection, deleteField, doc, getDocs, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, FlatList } from "react-native";
+import { Ionicons } from '@expo/vector-icons';
 
 type ItemData = {
   id: string;
@@ -130,9 +131,13 @@ const ItemChecklist = () => {
         style={[styles.checkbox, item.isChecked && styles.checked]}
         onPress={() => toggleCheck(item.id, item.isChecked)}
       >
-        <Text style={styles.checkboxText}>
-          {item.isChecked ? "✔" : ""}
-        </Text>
+        {item.isChecked && (
+          <Ionicons
+            name="checkmark"
+            size={20}
+            color="white"
+          />
+        )}
       </TouchableOpacity>
       <Text style={styles.itemText}>{item.name}</Text>
 

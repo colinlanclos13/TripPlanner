@@ -10,7 +10,7 @@ import { Colors } from "../styles /colors";
 export default function TripPage() {
   return (
       <SafeAreaView edges={["top"]}>
-        <ScrollView className="container bg-white w-full h-full text-left"  contentContainerStyle={{ paddingBottom: 100 }}>
+        <ScrollView className="container bg-white w-full h-full text-left" style={{backgroundColor:Colors.secondary}} contentContainerStyle={{ paddingBottom: 100 }}>
           <View className="mt-5">
             <TripPlanComp /> 
             <View style={styles.centeredWrapper}>
@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+    backgroundColor: Colors.secondary
   },
   button: {
     backgroundColor: Colors.accent, // Navy

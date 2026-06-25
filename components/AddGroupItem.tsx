@@ -1,3 +1,4 @@
+import { Colors } from '@/app/styles /colors';
 import { auth, db } from '@/firebaseConfig';
 import { arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore';
 import React, { useState } from 'react';
@@ -104,13 +105,13 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   buttonOpen: {
-    backgroundColor: '#F194FF',
+    backgroundColor: Colors.accent,
   },
   buttonClose: {
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.accent,
   },
   textStyle: {
-    color: 'white',
+    color: Colors.secondary,
     fontWeight: 'bold',
     textAlign: 'center',
   },
@@ -137,7 +138,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   button: {
-    backgroundColor: '#28a745', // Green color to differentiate the button from Add Grocery
+    backgroundColor: Colors.accent, // Green color to differentiate the button from Add Grocery
     paddingVertical: 12,
     paddingHorizontal: 30,
     borderRadius: 8,
@@ -146,7 +147,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   buttonText: {
-    color: '#fff',
+    color: Colors.secondary,
     fontSize: 18,
   },
 });

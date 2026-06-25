@@ -5,6 +5,7 @@ import AddGroceryItemModal from "@/components/AddGroceryItemModal";
 import {db } from "../../firebaseConfig"
 import { deleteField, doc, onSnapshot, updateDoc } from "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Colors } from "../styles /colors";
 
 
 
@@ -16,7 +17,6 @@ const GroceryList = () => {
   useEffect(() => {
     const grabGroceries = async () =>{
     const value = await AsyncStorage.getItem('tripId');
-    console.log(value)
     const id = value as string;
     setTripId(id)
     
@@ -31,7 +31,6 @@ const GroceryList = () => {
           count,
           bought
         }));
-        console.log(items)
         items.sort((a, b) => a.label.localeCompare(b.label));
         setGroceries(items)
       } else {
@@ -135,7 +134,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: "#f8f9fa",
+    backgroundColor: Colors.secondary,
   },
   item: {
     flexDirection: "row",

@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: Colors.secondary,
   },
   loadingText: {
     marginTop: 10,
@@ -150,13 +150,14 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
     justifyContent: 'center',
     flex: 1,
+    backgroundColor:Colors.primary
   },
   header: {
     fontSize: 32,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 40,
-    color: '#333',
+    color: Colors.secondary,
   },
   inputGroup: {
     marginBottom: 20,
@@ -173,6 +174,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingLeft: 10,
     fontSize: 16,
+    color: Colors.secondary
   },
   loginButton: {
     backgroundColor: Colors.accent,
