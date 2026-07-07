@@ -1,6 +1,9 @@
 import React from 'react';
 import { FlatList, TouchableOpacity, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Colors } from '@/app/styles /colors';
+
+
 
 export const avatarIcons = [
     'account', 'robot', 'dog', 'cat', 'alien', 'ninja', 'emoticon',
@@ -34,7 +37,7 @@ export const IconSelector: React.FC<IconSelectorProps> = ({ selectedIcon, onSele
           marginRight: 8,
         }}
       >
-        <MaterialCommunityIcons name={item} size={36} color="#333" />
+        <MaterialCommunityIcons name={item} size={36} color={Colors.accent} />
       </TouchableOpacity>
     )}
     contentContainerStyle={{ paddingVertical: 10 }}

@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: Colors.background,
   },
   loadingText: {
     marginTop: 10,
@@ -361,7 +361,7 @@ redText: {
   },
   input: {
     height: 50,
-    borderColor: Colors.accent,
+    borderColor: Colors.background,
     borderWidth: 3,
     borderRadius: 6,
     paddingLeft: 10,

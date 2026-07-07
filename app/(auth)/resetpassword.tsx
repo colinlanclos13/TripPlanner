@@ -3,6 +3,7 @@ import { sendPasswordResetEmail } from 'firebase/auth';
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import { auth } from "../../firebaseConfig"
+import { Colors } from '../styles /colors';
 
 const resetpassword = () => {
   const [email, setEmail] = useState('');
@@ -52,31 +53,33 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.background,
   },
   title: {
     fontSize: 22,
     fontWeight: '600',
     marginBottom: 20,
     textAlign: 'center',
+    color: Colors.secondary
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: Colors.secondary,
     padding: 12,
     borderRadius: 8,
     marginBottom: 20,
     fontSize: 16,
+    backgroundColor: Colors.secondary
   },
   button: {
-    backgroundColor: '#4A90E2',
+    backgroundColor: Colors.accent,
     padding: 14,
     borderRadius: 8,
     alignItems: 'center',
     marginBottom: 8
   },
   buttonText: {
-    color: '#fff',
+    color: Colors.secondary,
     fontWeight: '600',
     fontSize: 16,
   },

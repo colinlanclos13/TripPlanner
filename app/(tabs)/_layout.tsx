@@ -18,7 +18,7 @@ export default function TabLayout() {
     <CheckForLoginComp>
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: Colors.accent,
+          tabBarActiveTintColor: Colors.primary,
           headerShown: false,
           tabBarButton: HapticTab,
           tabBarBackground: TabBarBackground,

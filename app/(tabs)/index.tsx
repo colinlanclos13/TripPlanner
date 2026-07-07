@@ -3,10 +3,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import ListTripComp from '@/components/ListTripComp';
 import NotificationPermissionModal from '@/components/NotificationPermision';
 import { auth } from '@/firebaseConfig';
+import { Colors } from '../styles /colors';
 
 export default function HomeScreen() {
   return (
-    <SafeAreaView style={{flex:1}} >
+    <SafeAreaView style={styles.safeArea} >
           <ListTripComp />
           {auth.currentUser?.uid ? (
               <NotificationPermissionModal userId={auth.currentUser.uid} />
@@ -24,6 +25,10 @@ const styles = StyleSheet.create({
   stepContainer: {
     gap: 8,
     marginBottom: 8,
+  },
+  safeArea: {
+    flexGrow: 1,
+    backgroundColor: Colors.background, // soft white background
   },
   reactLogo: {
     height: 178,
